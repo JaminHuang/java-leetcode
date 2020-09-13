@@ -1,7 +1,5 @@
 import com.model.ListNode;
 
-import java.util.Optional;
-
 /**
  * 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
  * <p>
@@ -24,32 +22,27 @@ public class Question2 {
 
     public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
         ListNode result = new ListNode(0);
-        ListNode node = result;
-        int i = 0; // 设置进位值
+        ListNode temp = result;
+        int nextSum = 0; //进位值
         while (l1 != null || l2 != null) {
-            int a = l1 == null ? 0 : l1.val;
-            int b = l2 == null ? 0 : l2.val;
-
-            int sum = a + b + i;
-
-            // 结果冯10进1，节点为摸
-            i = sum / 10;
+            int val1 = l1 == null ? 0 : l1.val;
+            int val2 = l2 == null ? 0 : l2.val;
+            int sum = val1 + val2 + nextSum;
+            nextSum = sum / 10;
             sum = sum % 10;
-
-            node.next = new ListNode(sum);
-            node = node.next;
+            temp.next = new ListNode(sum);
+            temp = temp.next;
 
             if (l1 != null) {
-                l1 = l1.next;
+                l1 =l1.next;
             }
+
             if (l2 != null) {
                 l2 = l2.next;
             }
         }
+        if(nextSum == 1) temp.next = new ListNode(nextSum);
 
-        if (i == 1) {
-            node.next = new ListNode(i);
-        }
         return result.next;
     }
 }
